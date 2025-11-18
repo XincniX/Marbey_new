@@ -5,6 +5,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Marbey - متجر</title>
 <style>
+  /* ======= حلول لمشكلة تداخل اللوجو والـ badges ======= */
+
+/* 1) إجعل الهيدر فوق العناصر المتحركة (لو اللوجو لازال تحت) */
+header {
+  position: relative;   /* يسمح بالـ z-index */
+  z-index: 50;          /* يضع الهيدر دائماً فوق الـ badges */
+}
+
+/* 2) قلّل فرصة التداخل بتحريك البادجز لأسفل شوية */
+.badges {
+  position: fixed;
+  left: 24px;
+  top: 110px;           /* رفع البادجز أسفل الهيدر (زوّد/قلّل حسب احتياجك) */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 20;          /* تحت الheader لأن header z-index:50 */
+}
+
+/* 3) لو عايز البادجز أقل عرض (عشان مايغطيش متن الصفحة) */
+.badge {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 4) قيود Responsive: على الموبايل نخفف التداخل أكثر */
+@media (max-width: 700px) {
+  .badges {
+    left: 10px;
+    top: 20px;         /* على الموبايل خليها أعلى لكن أصغر عرض */
+    max-width: 200px;
+  }
+  header { z-index: 60; } /* للتأكيد */
+}
+
+/* 5) (اختياري) لو تحب تحط البادجز داخل الحاوية بدل ما تكون fixed:
+   احذف position:fixed من .badges ثم ضعه داخل .container قبل الهيدر. */
+
   :root{
     --accent:#c94b3b;
     --accent-dark:#b03d31;
