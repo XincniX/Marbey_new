@@ -1,0 +1,82 @@
+
+<!-- START: products grid -->
+<div id="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:16px;">
+  <!-- products will be injected here from products.json -->
+</div>
+<!-- END: products grid -->
+
+<!-- START: categories bar added by assistant -->
+<div id="category-bar" style="padding:12px; text-align:center;">
+  <button class="cat-btn" data-cat="all">الكل</button>
+  <button class="cat-btn" data-cat="احذية">احذية</button>
+  <button class="cat-btn" data-cat="شنط">شنط</button>
+  <button class="cat-btn" data-cat="اكسسوارات">اكسسوارات</button>
+</div>
+<style>
+.cat-btn{margin:6px;padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer}
+.cat-btn.active{background:#222;color:#fff}
+.product.hidden{display:none !important}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const buttons = Array.from(document.querySelectorAll('.cat-btn'));
+  function setActive(btn){
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function filter(cat){
+    const all = document.querySelectorAll('[data-product-item]');
+    all.forEach(el=>{
+      if(cat==='all') el.classList.remove('hidden');
+      else {
+        const cats = (el.getAttribute('data-category')||'').split(' ');
+        if(cats.includes(cat)) el.classList.remove('hidden'); else el.classList.add('hidden');
+      }
+    });
+  }
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', function(){ setActive(this); filter(this.getAttribute('data-cat')); });
+  });
+  // default: all
+  setActive(buttons[0]);
+  filter('all');
+});
+</script>
+<!-- END: categories bar -->
+404: Not Found
+<!-- START: dynamic products script -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const grid = document.getElementById('products-grid');
+  const placeholderImg = 'images/placeholder.jpg';
+  // fetch products.json
+  fetch('products.json').then(resp => {
+    if(!resp.ok) throw new Error('products.json not found or not accessible (HTTP ' + resp.status + ')');
+    return resp.json();
+  }).then(products => {
+    // clear grid
+    grid.innerHTML = '';
+    products.forEach(p => {
+      const art = document.createElement('article');
+      art.setAttribute('data-product-item','');
+      art.setAttribute('data-category', p.ItemCategory || 'unknown');
+      art.className = 'product-card';
+      art.innerHTML = `
+        <div style="border:1px solid #e0e0e0;padding:10px;border-radius:8px;text-align:center;">
+          <img src="images/${p.ItemImage}" alt="${p.ItemName}" style="max-width:100%;height:150px;object-fit:cover;border-radius:6px" onerror="this.src='${placeholderImg}'">
+          <h3 style="font-size:16px;margin:8px 0 4px 0;">${p.ItemName}</h3>
+          <p style="margin:0;color:#444;">${p.ItemPrice == null ? '' : (p.ItemPrice + ' EGP')}</p>
+        </div>
+      `;
+      grid.appendChild(art);
+    });
+    // trigger default filter (keep existing filter code working)
+    const activeBtn = document.querySelector('.cat-btn.active') || document.querySelector('.cat-btn[data-cat="all"]');
+    if(activeBtn) activeBtn.click();
+  }).catch(err => {
+    console.error(err);
+    grid.innerHTML = '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل products.json — تأكد أن الملف موجود في نفس مسار الموقع (root).</p>';
+  });
+});
+</script>
+<!-- END: dynamic products script -->
