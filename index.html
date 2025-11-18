@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Marbey - متجر</title>
+<style>
+  :root{
+    --accent:#c94b3b;
+    --accent-dark:#b03d31;
+    --muted:#777;
+    --card-bg:#fff;
+    --page-bg:#f5f5f7;
+    --shadow: 0 6px 18px rgba(20,20,20,0.08);
+    --radius:14px;
+  }
+  body{font-family: "Segoe UI", Tahoma, Arial, sans-serif;background:var(--page-bg);color:#111;margin:0;padding:0;line-height:1.4}
+  .container{max-width:1100px;margin:30px auto;padding:0 18px}
+  header{display:flex;align-items:center;gap:20px;justify-content:flex-end;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{width:84px;height:84px;border-radius:16px;box-shadow:var(--shadow);background:#fff;padding:8px}
+  .brand h1{margin:0;font-size:28px;color:var(--accent);letter-spacing:0.5px}
+  .subtitle{color:#999;margin-top:6px;font-size:13px}
+  /* top left small badges */
+  .badges{position:fixed;left:24px;top:20px;display:flex;flex-direction:column;gap:10px;z-index:10}
+  .badge{background:#fff;padding:8px 12px;border-radius:20px;box-shadow:var(--shadow);font-size:14px;color:#444}
+  /* Featured area */
+  .featured{display:flex;align-items:flex-start;gap:28px;margin:22px 0 28px}
+  .featured .big{flex:1}
+  .featured .grid{display:flex;gap:18px;width:600px;justify-content:flex-end}
+  /* product cards */
+  #products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:18px}
+  .product-card{background:var(--card-bg);border-radius:14px;padding:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:var(--shadow);text-align:center;direction:rtl}
+  .product-card img{width:100%;height:220px;object-fit:cover;border-radius:10px}
+  .product-card h3{margin:10px 0 6px;font-size:16px}
+  .price{color:var(--accent-dark);font-weight:700;margin-bottom:8px}
+  .btns{display:flex;gap:8px;justify-content:center;margin-top:6px}
+  .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+  .btn-wats{background:#e74c3c;color:#fff}
+  .btn-more{background:#2d72d9;color:#fff}
+  /* categories bar (keeps previous) */
+  #category-bar{padding:12px;text-align:center;margin-top:26px}
+  .cat-btn{margin:6px;padding:8px 14px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
+  .cat-btn.active{background:var(--accent-dark);color:#fff}
+  .product.hidden{display:none !important}
+  /* contact section */
+  .contact{background:#fff;border-radius:12px;padding:18px;margin:36px 0;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .contact p{margin:0}
+  .contact .actions{display:flex;gap:10px}
+  .footer{background:#fff;border-radius:12px;padding:12px;margin:30px 0;text-align:center;color:#666;box-shadow:var(--shadow)}
+  /* responsive */
+  @media (max-width:900px){
+    #products-grid{grid-template-columns:repeat(2,1fr)}
+    .product-card img{height:180px}
+  }
+  @media (max-width:600px){
+    header{flex-direction:column;align-items:flex-end}
+    #products-grid{grid-template-columns:1fr}
+    .featured{flex-direction:column}
+    .badges{left:8px;top:8px}
+  }
+</style>
+</head>
+<body>
+<div class="badges">
+  <div class="badge">العنوان: ماربي لاحدثية - شارع العربى - الهرم</div>
+  <div class="badge">صفحتنا على الفيسبوك</div>
+  <div class="badge">تواصل عبر واتساب</div>
+</div>
+
+<div class="container">
+  <header>
+    <div class="brand">
+      <div style="text-align:right">
+        <h1>ماربي للأزياء النسائية</h1>
+        <div class="subtitle">لمسة أناقة في كل خطوة</div>
+      </div>
+      <img src="assets/logo.png" alt="logo">
+    </div>
+  </header>
+
+  <!-- Featured / top products -->
+  <section class="featured">
+    <div class="big">
+      <h2 style="margin:0 0 8px 0;color:#222">الأكثر مبيعاً</h2>
+      <div id="products-grid" aria-live="polite">
+        <!-- products injected here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- categories -->
+  <div id="category-bar" style="text-align:center">
+    <button class="cat-btn" data-cat="all">الكل</button>
+    <button class="cat-btn" data-cat="احذية">احذية</button>
+    <button class="cat-btn" data-cat="شنط">شنط</button>
+    <button class="cat-btn" data-cat="اكسسوارات">اكسسوارات</button>
+  </div>
+
+  <!-- contact -->
+  <div class="contact" role="region" aria-label="تواصل سريع">
+    <div>
+      <h3 style="margin:0 0 6px 0">تواصل سريع</h3>
+      <p style="color:var(--muted);margin:0">هل تريد مساعدة سريعة؟ اضغط على أيقونة الواتساب للتواصل المباشر.</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-more" onclick="window.open('https://facebook.com','_blank')">شاهد صفحتنا على فيسبوك</button>
+      <button class="btn btn-wats" onclick="window.open('https://wa.me/201234567890','_blank')">راسلنا الآن</button>
+    </div>
+  </div>
+
+  <div class="footer">تصميم الموقع تجريبي و تحت الانشاء — © MARBEY</div>
+</div>
+
+<!-- dynamic products script -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const grid = document.getElementById('products-grid');
+  const placeholderImg = 'images/placeholder.jpg';
+
+  function renderProducts(products){
+    grid.innerHTML = '';
+    products.forEach(p => {
+      const art = document.createElement('article');
+      art.className = 'product-card';
+      art.setAttribute('data-product-item','');
+      art.setAttribute('data-category', p.ItemCategory || 'unknown');
+      art.innerHTML = `
+        <img src="images/${p.ItemImage}" alt="${p.ItemName}" onerror="this.src='${placeholderImg}'">
+        <h3>${p.ItemName}</h3>
+        <div class="price">${p.ItemPrice == null ? '' : (p.ItemPrice + ' EGP')}</div>
+        <div class="btns">
+          <button class="btn btn-wats" onclick="window.open('https://wa.me/201234567890?text=${encodeURIComponent('اهلاً، استفسار عن: ' + p.ItemName)}','_blank')">واتساب</button>
+          <button class="btn btn-more" onclick="alert('تفاصيل المنتج: ' + p.ItemName)">المزيد</button>
+        </div>
+      `;
+      grid.appendChild(art);
+    });
+    // apply current filter
+    const activeBtn = document.querySelector('.cat-btn.active') || document.querySelector('.cat-btn[data-cat=\"all\"]');
+    if(activeBtn) activeBtn.click();
+  }
+
+  // fetch products.json (relative path for GitHub pages)
+  fetch('products.json').then(resp => {
+    if(!resp.ok) throw new Error('products.json not found (HTTP ' + resp.status + ')');
+    return resp.json();
+  }).then(json => {
+    // Optionally sort or pick featured items - here show first 6 to mimic layout
+    const products = Array.isArray(json) ? json.slice(0,6) : [];
+    renderProducts(products);
+  }).catch(err => {
+    console.error(err);
+    grid.innerHTML = '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل products.json — تأكد أن الملف موجود في المسار الصحيح.</p>';
+  });
+
+  // categories filter behavior
+  const buttons = Array.from(document.querySelectorAll('.cat-btn'));
+  function setActive(btn){
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function filter(cat){
+    const all = document.querySelectorAll('[data-product-item]');
+    all.forEach(el=>{
+      if(cat==='all') el.classList.remove('hidden');
+      else {
+        const cats = (el.getAttribute('data-category')||'').split(' ');
+        if(cats.includes(cat)) el.classList.remove('hidden'); else el.classList.add('hidden');
+      }
+    });
+  }
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', function(){ setActive(this); filter(this.getAttribute('data-cat')); });
+  });
+  // default all
+  const defaultBtn = document.querySelector('.cat-btn[data-cat=\"all\"]');
+  if(defaultBtn) defaultBtn.classList.add('active');
+});
+</script>
+
+</body>
+</html>
