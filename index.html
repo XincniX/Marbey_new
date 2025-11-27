@@ -78,7 +78,7 @@ header {
   .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
   .btn-wats{background:#e74c3c;color:#fff}
   .btn-more{background:#2d72d9;color:#fff}
-  /* categories bar (keeps previous) */
+  /* categories bar */
   #category-bar{padding:12px;text-align:center;margin-top:26px}
   .cat-btn{margin:6px;padding:8px 14px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
   .cat-btn.active{background:var(--accent-dark);color:#fff}
@@ -111,18 +111,14 @@ header {
 <div class="container">
   <header style="display:flex; justify-content:flex-end;">
     <div class="brand" style="display:flex; align-items:center; gap:14px; flex-direction:row-reverse;">
-      
       <img src="assets/logo.png" alt="logo" style="width:84px; height:84px; border-radius:16px;">
-      
       <div style="text-align:right;">
         <h1 style="margin:0;">ماربي للأزياء النسائية</h1>
         <div class="subtitle">لمسة أناقة في كل خطوة</div>
       </div>
-
     </div>
   </header>
 </div>
-
 
   <!-- Featured / top products -->
   <section class="featured">
@@ -134,12 +130,11 @@ header {
     </div>
   </section>
 
-  <!-- categories -->
+  <!-- categories (معدّلة لتتوافق مع شنط حريمي / أحذية حريمي) -->
   <div id="category-bar" style="text-align:center">
     <button class="cat-btn" data-cat="all">الكل</button>
-    <button class="cat-btn" data-cat="احذية">احذية</button>
-    <button class="cat-btn" data-cat="شنط">شنط</button>
-    <button class="cat-btn" data-cat="اكسسوارات">اكسسوارات</button>
+    <button class="cat-btn" data-cat="أحذية حريمي">أحذية</button>
+    <button class="cat-btn" data-cat="شنط حريمي">شنط</button>
   </div>
 
   <!-- contact -->
@@ -155,7 +150,6 @@ header {
   </div>
 
   <div class="footer">تصميم الموقع تجريبي و تحت الانشاء — © MARBEY</div>
-</div>
 
 <!-- dynamic products script -->
 <script>
@@ -182,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function(){
       grid.appendChild(art);
     });
     // apply current filter
-    const activeBtn = document.querySelector('.cat-btn.active') || document.querySelector('.cat-btn[data-cat=\"all\"]');
+    const activeBtn = document.querySelector('.cat-btn.active') || document.querySelector('.cat-btn[data-cat="all"]');
     if(activeBtn) activeBtn.click();
   }
 
@@ -191,8 +185,8 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!resp.ok) throw new Error('products.json not found (HTTP ' + resp.status + ')');
     return resp.json();
   }).then(json => {
-    // Optionally sort or pick featured items - here show first 6 to mimic layout
-    const products = Array.isArray(json) ? json.slice(0,6) : [];
+    // عرض كل المنتجات من الملف الجديد
+    const products = Array.isArray(json) ? json : [];
     renderProducts(products);
   }).catch(err => {
     console.error(err);
@@ -208,18 +202,23 @@ document.addEventListener('DOMContentLoaded', function(){
   function filter(cat){
     const all = document.querySelectorAll('[data-product-item]');
     all.forEach(el=>{
-      if(cat==='all') el.classList.remove('hidden');
-      else {
-        const cats = (el.getAttribute('data-category')||'').split(' ');
-        if(cats.includes(cat)) el.classList.remove('hidden'); else el.classList.add('hidden');
+      if(cat === 'all') {
+        el.classList.remove('hidden');
+      } else {
+        const cats = (el.getAttribute('data-category') || '').split(' ');
+        if(cats.includes(cat)) el.classList.remove('hidden');
+        else el.classList.add('hidden');
       }
     });
   }
   buttons.forEach(btn=>{
-    btn.addEventListener('click', function(){ setActive(this); filter(this.getAttribute('data-cat')); });
+    btn.addEventListener('click', function(){
+      setActive(this);
+      filter(this.getAttribute('data-cat'));
+    });
   });
   // default all
-  const defaultBtn = document.querySelector('.cat-btn[data-cat=\"all\"]');
+  const defaultBtn = document.querySelector('.cat-btn[data-cat="all"]');
   if(defaultBtn) defaultBtn.classList.add('active');
 });
 </script>
