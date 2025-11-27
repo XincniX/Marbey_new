@@ -24,27 +24,28 @@
     line-height:1.4;
   }
 
+  /* نخلي الكونتينر كله رايح يمين الصفحة */
   .container{
     max-width:1100px;
-    margin:30px auto;
+    margin:30px 0 30px auto;  /* يمين */
     padding:0 18px;
   }
 
-  /* ======= الهيدر واللوجو ======= */
   header{
-    position:relative;   /* يسمح بالـ z-index */
-    z-index:50;          /* أعلى من أي عناصر أخرى */
     display:flex;
     align-items:center;
-    justify-content:flex-end; /* كله ناحية اليمين */
+    gap:20px;
+    justify-content:flex-end; /* عناصر الهيدر يمين الكونتينر */
     padding:18px 0;
+    position:relative;
+    z-index:50;
   }
 
   .brand{
     display:flex;
     align-items:center;
     gap:14px;
-    flex-direction:row-reverse; /* الصورة والنص يمين */
+    flex-direction:row-reverse; /* اللوجو ثم النص ناحية اليمين */
   }
 
   .brand img{
@@ -69,27 +70,28 @@
     font-size:13px;
   }
 
-  /* ======= البادجز اليسار ======= */
+  /* شريط البادجز الثابت على الشمال */
   .badges{
     position:fixed;
     left:24px;
-    top:130px;             /* نزلتها تحت الهيدر عشان ما يحصلش تداخل */
+    top:110px;
     display:flex;
     flex-direction:column;
     gap:10px;
-    z-index:20;            /* أقل من الهيدر */
-    max-width:260px;
+    z-index:20;
   }
+
   .badge{
+    max-width:260px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     background:#fff;
     padding:8px 12px;
     border-radius:20px;
     box-shadow:var(--shadow);
     font-size:14px;
     color:#444;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
   }
 
   @media (max-width:700px){
@@ -107,7 +109,7 @@
     gap:28px;
     margin:22px 0 28px;
   }
-  .featured .big{flex:1}
+  .featured .big{flex:1;}
 
   /* product cards */
   #products-grid{
@@ -116,6 +118,7 @@
     gap:22px;
     margin-top:18px;
   }
+
   .product-card{
     background:var(--card-bg);
     border-radius:14px;
@@ -125,27 +128,32 @@
     text-align:center;
     direction:rtl;
   }
+
   .product-card img{
     width:100%;
     height:220px;
     object-fit:cover;
     border-radius:10px;
   }
+
   .product-card h3{
     margin:10px 0 6px;
     font-size:16px;
   }
+
   .price{
     color:var(--accent-dark);
     font-weight:700;
     margin-bottom:8px;
   }
+
   .btns{
     display:flex;
     gap:8px;
     justify-content:center;
     margin-top:6px;
   }
+
   .btn{
     padding:8px 12px;
     border-radius:8px;
@@ -156,12 +164,13 @@
   .btn-wats{background:#e74c3c;color:#fff}
   .btn-more{background:#2d72d9;color:#fff}
 
-  /* categories bar */
+  /* شريط الفلترة */
   #category-bar{
     padding:12px;
     text-align:center;
     margin-top:26px;
   }
+
   .cat-btn{
     margin:6px;
     padding:8px 14px;
@@ -170,10 +179,12 @@
     background:#fff;
     cursor:pointer;
   }
+
   .cat-btn.active{
     background:var(--accent-dark);
     color:#fff;
   }
+
   .product.hidden{display:none !important}
 
   /* contact section */
@@ -190,6 +201,7 @@
   }
   .contact p{margin:0}
   .contact .actions{display:flex;gap:10px}
+
   .footer{
     background:#fff;
     border-radius:12px;
@@ -206,20 +218,16 @@
     .product-card img{height:180px}
   }
   @media (max-width:600px){
-    header{
-      flex-direction:column;
-      align-items:flex-end;
-    }
     #products-grid{grid-template-columns:1fr}
     .featured{flex-direction:column}
+    header{flex-direction:column;align-items:flex-end}
     .badges{left:8px;top:8px}
   }
 </style>
 </head>
 <body>
-
 <div class="badges">
-  <div class="badge">العنوان: ماربي لللاحذية - شارع العروبة - الهرم</div>
+  <div class="badge">العنوان: ماربي للأحذية - شارع العروبة - الهرم</div>
   <div class="badge">صفحتنا على الفيسبوك</div>
   <div class="badge">تواصل عبر واتساب</div>
 </div>
@@ -227,9 +235,9 @@
 <div class="container">
   <header>
     <div class="brand">
-      <img src="assets/logo.png" alt="logo">
+      <img src="assets/logo.png" alt="Marbey logo">
       <div style="text-align:right;">
-        <h1 style="margin:0;">ماربي للأزياء النسائية</h1>
+        <h1>ماربي للأزياء النسائية</h1>
         <div class="subtitle">لمسة أناقة في كل خطوة</div>
       </div>
     </div>
@@ -239,13 +247,13 @@
   <section class="featured">
     <div class="big">
       <h2 style="margin:0 0 8px 0;color:#222">الأكثر مبيعاً</h2>
-      <div id="products-grid">
+      <div id="products-grid" aria-live="polite">
         <!-- products injected here -->
       </div>
     </div>
   </section>
 
-  <!-- categories (متوافقة مع bag / shoes) -->
+  <!-- categories: القيم (data-cat) = bag / shoes زي الـ JSON -->
   <div id="category-bar">
     <button class="cat-btn" data-cat="all">الكل</button>
     <button class="cat-btn" data-cat="shoes">أحذية</button>
@@ -262,11 +270,11 @@
     </div>
     <div class="actions">
       <button class="btn btn-more"
-        onclick="window.open('https://facebook.com','_blank')">
+              onclick="window.open('https://facebook.com','_blank')">
         شاهد صفحتنا على فيسبوك
       </button>
       <button class="btn btn-wats"
-        onclick="window.open('https://wa.me/201234567890','_blank')">
+              onclick="window.open('https://wa.me/201234567890','_blank')">
         راسلنا الآن
       </button>
     </div>
@@ -281,6 +289,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const grid = document.getElementById('products-grid');
+  const placeholderImg = 'images/placeholder.jpg'; // لو مفيش حط أي صورة مكانها
 
   function renderProducts(products){
     grid.innerHTML = '';
@@ -289,23 +298,38 @@ document.addEventListener('DOMContentLoaded', function(){
       art.className = 'product-card';
       art.setAttribute('data-product-item','');
       art.setAttribute('data-category', p.ItemCategory || 'unknown');
+
+      const fileName = p.ItemImage || '';
+      const imgPath = fileName
+        ? `images/${encodeURIComponent(fileName)}`
+        : placeholderImg;
+
       art.innerHTML = `
-        <img src="images/${p.ItemImage}" alt="${p.ItemName}">
+        <img src="${imgPath}" alt="${p.ItemName}"
+             onerror="this.src='${placeholderImg}'">
         <h3>${p.ItemName}</h3>
-        <div class="price">${p.ItemPrice == null ? '' : ('EGP ' + p.ItemPrice)}</div>
+        <div class="price">
+          ${p.ItemPrice == null ? '' : ('EGP ' + p.ItemPrice)}
+        </div>
         <div class="btns">
           <button class="btn btn-wats"
-            onclick="window.open('https://wa.me/201234567890?text=${encodeURIComponent('اهلاً، استفسار عن: ' + p.ItemName)}','_blank')">
+            onclick="window.open('https://wa.me/201234567890?text=' + encodeURIComponent('اهلاً، استفسار عن: ${p.ItemName}'),'_blank')">
             واتساب
           </button>
           <button class="btn btn-more"
-            onclick="alert('تفاصيل المنتج: ' + p.ItemName)">
+            onclick="alert('تفاصيل المنتج: ${p.ItemName}')">
             المزيد
           </button>
         </div>
       `;
       grid.appendChild(art);
     });
+
+    // طبّق الفلتر الحالي بعد ما نرندر
+    const activeBtn =
+      document.querySelector('.cat-btn.active') ||
+      document.querySelector('.cat-btn[data-cat="all"]');
+    if (activeBtn) applyFilter(activeBtn.getAttribute('data-cat'));
   }
 
   // تحميل ملف المنتجات
@@ -317,58 +341,45 @@ document.addEventListener('DOMContentLoaded', function(){
     .then(json => {
       const products = Array.isArray(json) ? json : [];
       renderProducts(products);
-      applyCurrentFilter();   // فلترة مبدئية حسب الزر النشط
     })
     .catch(err => {
       console.error(err);
       grid.innerHTML =
-        '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل ملف المنتجات — تأكد أن products.json في نفس مجلد index.html.</p>';
+        '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل ملف المنتجات — تأكد أن products.json موجود في نفس مجلد index.html.</p>';
     });
 
-  // ====== فلترة الكاتيجوري ======
+  // منطق الفلترة
   const buttons = Array.from(document.querySelectorAll('.cat-btn'));
 
   function setActive(btn){
-    buttons.forEach(b=>b.classList.remove('active'));
+    buttons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
 
-  function filter(cat){
+  function applyFilter(cat){
     const all = document.querySelectorAll('[data-product-item]');
-    all.forEach(el=>{
-      if(cat === 'all'){
+    all.forEach(el => {
+      if (cat === 'all') {
         el.classList.remove('hidden');
       } else {
-        const catVal = (el.getAttribute('data-category') || '').trim();
-        if(catVal === cat){
-          el.classList.remove('hidden');
-        } else {
-          el.classList.add('hidden');
-        }
+        const prodCat = el.getAttribute('data-category') || '';
+        if (prodCat === cat) el.classList.remove('hidden');
+        else el.classList.add('hidden');
       }
     });
   }
 
-  function applyCurrentFilter(){
-    const activeBtn =
-      document.querySelector('.cat-btn.active') ||
-      document.querySelector('.cat-btn[data-cat="all"]');
-    if(activeBtn){
-      const cat = activeBtn.getAttribute('data-cat');
-      filter(cat);
-    }
-  }
-
-  buttons.forEach(btn=>{
+  buttons.forEach(btn => {
     btn.addEventListener('click', function(){
+      const c = this.getAttribute('data-cat');
       setActive(this);
-      filter(this.getAttribute('data-cat'));
+      applyFilter(c);
     });
   });
 
-  // اجعل "الكل" هو الافتراضي
+  // افتراضياً: الكل مفعّل
   const defaultBtn = document.querySelector('.cat-btn[data-cat="all"]');
-  if(defaultBtn) defaultBtn.classList.add('active');
+  if (defaultBtn) defaultBtn.classList.add('active');
 });
 </script>
 
