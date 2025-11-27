@@ -5,45 +5,42 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Marbey - متجر</title>
 <style>
-  /* ======= حلول لمشكلة تداخل اللوجو والـ badges ======= */
-
-/* 1) إجعل الهيدر فوق العناصر المتحركة (لو اللوجو لازال تحت) */
-header {
-  position: relative;   /* يسمح بالـ z-index */
-  z-index: 50;          /* يضع الهيدر دائماً فوق الـ badges */
-}
-
-/* 2) قلّل فرصة التداخل بتحريك البادجز لأسفل شوية */
-.badges {
-  position: fixed;
-  left: 24px;
-  top: 110px;           /* رفع البادجز أسفل الهيدر (زوّد/قلّل حسب احتياجك) */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 20;          /* تحت الheader لأن header z-index:50 */
-}
-
-/* 3) لو عايز البادجز أقل عرض (عشان مايغطيش متن الصفحة) */
-.badge {
-  max-width: 260px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 4) قيود Responsive: على الموبايل نخفف التداخل أكثر */
-@media (max-width: 700px) {
-  .badges {
-    left: 10px;
-    top: 20px;         /* على الموبايل خليها أعلى لكن أصغر عرض */
-    max-width: 200px;
+  header {
+    position: relative;
+    z-index: 50;
   }
-  header { z-index: 60; } /* للتأكيد */
-}
 
-/* 5) (اختياري) لو تحب تحط البادجز داخل الحاوية بدل ما تكون fixed:
-   احذف position:fixed من .badges ثم ضعه داخل .container قبل الهيدر. */
+  .badges {
+    position: fixed;
+    left: 24px;
+    top: 110px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+  }
+
+  .badge {
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background:#fff;
+    padding:8px 12px;
+    border-radius:20px;
+    box-shadow: 0 6px 18px rgba(20,20,20,0.08);
+    font-size:14px;
+    color:#444;
+  }
+
+  @media (max-width: 700px) {
+    .badges {
+      left: 10px;
+      top: 20px;
+      max-width: 200px;
+    }
+    header { z-index: 60; }
+  }
 
   :root{
     --accent:#c94b3b;
@@ -54,21 +51,17 @@ header {
     --shadow: 0 6px 18px rgba(20,20,20,0.08);
     --radius:14px;
   }
-  body{font-family: "Segoe UI", Tahoma, Arial, sans-serif;background:var(--page-bg);color:#111;margin:0;padding:0;line-height:1.4}
+  body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:var(--page-bg);color:#111;margin:0;padding:0;line-height:1.4}
   .container{max-width:1100px;margin:30px auto;padding:0 18px}
   header{display:flex;align-items:center;gap:20px;justify-content:flex-end;padding:18px 0}
   .brand{display:flex;align-items:center;gap:14px}
   .brand img{width:84px;height:84px;border-radius:16px;box-shadow:var(--shadow);background:#fff;padding:8px}
   .brand h1{margin:0;font-size:28px;color:var(--accent);letter-spacing:0.5px}
   .subtitle{color:#999;margin-top:6px;font-size:13px}
-  /* top left small badges */
-  .badges{position:fixed;left:24px;top:20px;display:flex;flex-direction:column;gap:10px;z-index:10}
-  .badge{background:#fff;padding:8px 12px;border-radius:20px;box-shadow:var(--shadow);font-size:14px;color:#444}
-  /* Featured area */
+
   .featured{display:flex;align-items:flex-start;gap:28px;margin:22px 0 28px}
   .featured .big{flex:1}
-  .featured .grid{display:flex;gap:18px;width:600px;justify-content:flex-end}
-  /* product cards */
+
   #products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:18px}
   .product-card{background:var(--card-bg);border-radius:14px;padding:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:var(--shadow);text-align:center;direction:rtl}
   .product-card img{width:100%;height:220px;object-fit:cover;border-radius:10px}
@@ -78,17 +71,17 @@ header {
   .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
   .btn-wats{background:#e74c3c;color:#fff}
   .btn-more{background:#2d72d9;color:#fff}
-  /* categories bar */
+
   #category-bar{padding:12px;text-align:center;margin-top:26px}
   .cat-btn{margin:6px;padding:8px 14px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
   .cat-btn.active{background:var(--accent-dark);color:#fff}
   .product.hidden{display:none !important}
-  /* contact section */
+
   .contact{background:#fff;border-radius:12px;padding:18px;margin:36px 0;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:16px}
   .contact p{margin:0}
   .contact .actions{display:flex;gap:10px}
   .footer{background:#fff;border-radius:12px;padding:12px;margin:30px 0;text-align:center;color:#666;box-shadow:var(--shadow)}
-  /* responsive */
+
   @media (max-width:900px){
     #products-grid{grid-template-columns:repeat(2,1fr)}
     .product-card img{height:180px}
@@ -118,23 +111,20 @@ header {
       </div>
     </div>
   </header>
-</div>
 
   <!-- Featured / top products -->
   <section class="featured">
     <div class="big">
       <h2 style="margin:0 0 8px 0;color:#222">الأكثر مبيعاً</h2>
-      <div id="products-grid" aria-live="polite">
-        <!-- products injected here -->
-      </div>
+      <div id="products-grid" aria-live="polite"></div>
     </div>
   </section>
 
-  <!-- categories (معدّلة لتتوافق مع شنط حريمي / أحذية حريمي) -->
+  <!-- categories: تتوافق مع Class = bag / shoes -->
   <div id="category-bar" style="text-align:center">
     <button class="cat-btn" data-cat="all">الكل</button>
-    <button class="cat-btn" data-cat="أحذية حريمي">أحذية</button>
-    <button class="cat-btn" data-cat="شنط حريمي">شنط</button>
+    <button class="cat-btn" data-cat="shoes">أحذية</button>
+    <button class="cat-btn" data-cat="bag">شنط</button>
   </div>
 
   <!-- contact -->
@@ -150,12 +140,12 @@ header {
   </div>
 
   <div class="footer">تصميم الموقع تجريبي و تحت الانشاء — © MARBEY</div>
+</div>
 
-<!-- dynamic products script -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const grid = document.getElementById('products-grid');
-  const placeholderImg = 'images/placeholder.jpg';
+  const placeholderImg = 'images/placeholder.jpg'; // تأكد إن الملف موجود فعلاً
 
   function renderProducts(products){
     grid.innerHTML = '';
@@ -165,51 +155,63 @@ document.addEventListener('DOMContentLoaded', function(){
       art.setAttribute('data-product-item','');
       art.setAttribute('data-category', p.ItemCategory || 'unknown');
       art.innerHTML = `
-        <img src="images/${p.ItemImage}" alt="${p.ItemName}" onerror="this.src='${placeholderImg}'">
+        <img src="images/${p.ItemImage}"
+             alt="${p.ItemName}"
+             onerror="this.onerror=null; this.src='${placeholderImg}';">
         <h3>${p.ItemName}</h3>
-        <div class="price">${p.ItemPrice == null ? '' : (p.ItemPrice + ' EGP')}</div>
+        <div class="price">${p.ItemPrice == null ? '' : ('EGP ' + p.ItemPrice)}</div>
         <div class="btns">
-          <button class="btn btn-wats" onclick="window.open('https://wa.me/201234567890?text=${encodeURIComponent('اهلاً، استفسار عن: ' + p.ItemName)}','_blank')">واتساب</button>
+          <button class="btn btn-wats"
+            onclick="window.open('https://wa.me/201234567890?text=${encodeURIComponent('اهلاً، استفسار عن: ' + p.ItemName)}','_blank')">
+            واتساب
+          </button>
           <button class="btn btn-more" onclick="alert('تفاصيل المنتج: ' + p.ItemName)">المزيد</button>
         </div>
       `;
       grid.appendChild(art);
     });
-    // apply current filter
+
     const activeBtn = document.querySelector('.cat-btn.active') || document.querySelector('.cat-btn[data-cat="all"]');
-    if(activeBtn) activeBtn.click();
+    if (activeBtn) {
+      // نعمل فلتر مرة واحدة بدون trigger لحدث click (لتقليل أي reflow)
+      filter(activeBtn.getAttribute('data-cat'));
+    }
   }
 
-  // fetch products.json (relative path for GitHub pages)
-  fetch('products.json').then(resp => {
-    if(!resp.ok) throw new Error('products.json not found (HTTP ' + resp.status + ')');
-    return resp.json();
-  }).then(json => {
-    // عرض كل المنتجات من الملف الجديد
-    const products = Array.isArray(json) ? json : [];
-    renderProducts(products);
-  }).catch(err => {
-    console.error(err);
-    grid.innerHTML = '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل products.json — تأكد أن الملف موجود في المسار الصحيح.</p>';
-  });
+  // الفلترة
+  function filter(cat){
+    const all = document.querySelectorAll('[data-product-item]');
+    all.forEach(el => {
+      if (cat === 'all') {
+        el.classList.remove('hidden');
+      } else {
+        const cats = (el.getAttribute('data-category') || '').split(' ');
+        if (cats.includes(cat)) el.classList.remove('hidden');
+        else el.classList.add('hidden');
+      }
+    });
+  }
 
-  // categories filter behavior
+  // جلب المنتجات
+  fetch('MarbeyProducts.json')
+    .then(resp => {
+      if(!resp.ok) throw new Error('products json not found: ' + resp.status);
+      return resp.json();
+    })
+    .then(json => {
+      const products = Array.isArray(json) ? json : [];
+      renderProducts(products);
+    })
+    .catch(err => {
+      console.error(err);
+      grid.innerHTML = '<p style="padding:16px;color:#900">خطأ: تعذّر تحميل ملف المنتجات.</p>';
+    });
+
+  // أزرار التصنيفات
   const buttons = Array.from(document.querySelectorAll('.cat-btn'));
   function setActive(btn){
     buttons.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-  }
-  function filter(cat){
-    const all = document.querySelectorAll('[data-product-item]');
-    all.forEach(el=>{
-      if(cat === 'all') {
-        el.classList.remove('hidden');
-      } else {
-        const cats = (el.getAttribute('data-category') || '').split(' ');
-        if(cats.includes(cat)) el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      }
-    });
   }
   buttons.forEach(btn=>{
     btn.addEventListener('click', function(){
@@ -217,9 +219,10 @@ document.addEventListener('DOMContentLoaded', function(){
       filter(this.getAttribute('data-cat'));
     });
   });
-  // default all
+
+  // تفعيل "الكل" افتراضيًا
   const defaultBtn = document.querySelector('.cat-btn[data-cat="all"]');
-  if(defaultBtn) defaultBtn.classList.add('active');
+  if (defaultBtn) defaultBtn.classList.add('active');
 });
 </script>
 
