@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   // جلب المنتجات
-  fetch('MarbeyProducts.json')
+  fetch('products.json')
     .then(resp => {
       if(!resp.ok) throw new Error('products json not found: ' + resp.status);
       return resp.json();
